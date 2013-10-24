@@ -26,6 +26,15 @@
  */
 
 (function($) {
+	// From James Padolsey: http://ajaxian.com/archives/attack-of-the-ie-conditional-comment 
+	var ie = (function(){
+		var undef, v = 3, div = document.createElement('div');
+		while (
+			div.innerHTML = '<!--[if gt IE '+(++v)+']><i></i><![endif]-->',
+			div.getElementsByTagName('i')[0]
+		);
+		return v> 4 ? v : undef;
+	}());
     var locationWrapper = {
         put: function(hash, win) {
             (win || window).location.hash = this.encoder(hash);
@@ -33,7 +42,7 @@
         get: function(win) {
             var hash = ((win || window).location.hash).replace(/^#/, '');
             try {
-                return $.browser.mozilla ? hash : decodeURIComponent(hash);
+                return window.decodeURIComponent ? decodeURIComponent(hash) : hash;
             }
             catch (error) {
                 return hash;
@@ -181,7 +190,7 @@
 
     var self = $.extend({}, implementations.base);
 
-    if($.browser.msie && ($.browser.version < 8 || document.documentMode < 8)) {
+    if (ie && (ie < 8 || document.documentMode < 8)) {
         self.type = 'iframeTimer';
     } else if("onhashchange" in window) {
         self.type = 'hashchangeEvent';

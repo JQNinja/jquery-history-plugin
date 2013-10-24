@@ -56,7 +56,7 @@ jQuery(document).ready(function($) {
         }
 
         // ----- Controllers -----
-        $('.container .ajax-links a').live('click', clickHandler);
+        $('.container .ajax-links a').on('click', clickHandler);
 
         function clickHandler(e) {
             var page = $(this).hashValue();

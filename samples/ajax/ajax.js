@@ -8,7 +8,7 @@ jQuery(document).ready(function($) {
                 load(url == "" ? "1" : url);
             });
 
-        $('#ajax-links a').live('click', function(e) {
+        $('#ajax-links a').on('click', function(e) {
                 var url = $(this).attr('href');
                 url = url.replace(/^.*#/, '');
                 $.history.load(url);
